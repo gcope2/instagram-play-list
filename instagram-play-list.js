@@ -5,6 +5,8 @@
 import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
+import "./instagram-play-list-data.js";
+import "./instagram-play-list-arrow.js";
 
 /**
  * `instagram-play-list`
@@ -20,25 +22,18 @@ export class InstagramPlayList extends DDDSuper(I18NMixin(LitElement)) {
 
   constructor() {
     super();
-    this.title = "";
-    this.t = this.t || {};
-    this.t = {
-      ...this.t,
-      title: "Title",
-    };
-    this.registerLocalization({
-      context: this,
-      localesPath:
-        new URL("./locales/instagram-play-list.ar.json", import.meta.url).href +
-        "/../",
-    });
+    this.curIndex = 0;
+    this.topHeading = "";
+    this.secondHeading = "";
+    this.slides = Array.from(this.querySelectorAll("play-list-slide"));
   }
 
   // Lit reactive properties
   static get properties() {
     return {
       ...super.properties,
-      title: { type: String },
+      curIndex: { type: Number, reflect: true },
+      topHeading: { type: String},
     };
   }
 
@@ -48,16 +43,49 @@ export class InstagramPlayList extends DDDSuper(I18NMixin(LitElement)) {
     css`
       :host {
         display: block;
-        color: var(--ddd-theme-primary);
-        background-color: var(--ddd-theme-accent);
+        background-color: var(--ddd-theme-default-slateMaxLight);
         font-family: var(--ddd-font-navigation);
+        width: 350px;
+        height: 600px;
+        margin: var(--ddd-spacing-2) var(--ddd-spacing-2) var(--ddd-spacing-2) 25px !important;
+        box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
       }
       .wrapper {
-        margin: var(--ddd-spacing-2);
-        padding: var(--ddd-spacing-4);
+        display: flex;
+        justify-content: center;
       }
-      h3 span {
-        font-size: var(--instagram-play-list-label-font-size, var(--ddd-font-size-s));
+      .title-top {
+        color: var(--ddd-theme-default-skyBlue);
+        font-size: var(--ddd-font-size-s);
+      }
+      .slide-title {
+        margin-top: var(--ddd-spacing-2);
+        margin-bottom: var(--ddd-spacing-10);
+        color: var(--ddd-theme-default-beaverBlue);
+        font-size: var(--ddd-font-size-xl);
+        font-weight: var(--ddd-font-weight-bold);
+      }
+      .slide-content {
+        margin-bottom: var(--ddd-spacing-4);
+        font-size: var(--ddd-font-size-xs);
+        width: 400px;
+        height: 150px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        color: black;
+      }
+      .line {
+        margin-top: var(--ddd-spacing-10);
+        border: none;
+        border-top: 3px solid var(--ddd-theme-default-skyBlue);
+        justify-self: left;
+        width: 100px;
+        margin-left: 0;
+        padding-bottom: 0;
+      }
+      .arrow-wrapper {
+        position: relative;
+        top: -42px;
       }
     `];
   }
@@ -65,19 +93,57 @@ export class InstagramPlayList extends DDDSuper(I18NMixin(LitElement)) {
   // Lit render the HTML
   render() {
     return html`
-<div class="wrapper">
-  <h3><span>${this.t.title}:</span> ${this.title}</h3>
-  <slot></slot>
-</div>`;
+      <div class="wrapper">
+        <instagram-play-list-data> </instagram-play-list-data>
+      </div>
+      <div class="arrow-wrapper">
+        <instagram-play-list-arrow></instagram-play-list-arrow>
+      </div>
+      `;
   }
 
-  /**
-   * haxProperties integration via file reference
-   */
-  static get haxProperties() {
-    return new URL(`./lib/${this.tag}.haxProperties.json`, import.meta.url)
-      .href;
+  firstUpdated() {  
+    this._updateSlides();
   }
+
+  updated(changedProperties) {
+    if (changedProperties.has('curIndex')) {
+      this._updateSlides();
+    }
+  }
+
+  _updateSlides() {
+    this.slides.forEach((slide, i) => {
+      slide.active = (i === this.curIndex)
+    });
+
+    const curSlide = this.slides[this.curIndex];
+    if (curSlide) {
+      this.topHeading = curSlide.getAttribute("topHeading");
+      this.secondHeading = curSlide.getAttribute("secondHeading");
+    } 
+  }
+
+  next() {
+    if (this.curIndex < this.slides.length - 1) {
+      this.curIndex++;
+    }
+  }
+
+  back() {
+    if (this.curIndex > 0) {
+      this.curIndex--;
+    }
+  }
+
+  _handleIndexChange(e) {
+    const newIndex = e.detail.index;
+    
+    if (newIndex >= 0 && newIndex < this.slides.length) {
+      this.curIndex = newIndex;
+    }
+  }
+
 }
 
 globalThis.customElements.define(InstagramPlayList.tag, InstagramPlayList);
