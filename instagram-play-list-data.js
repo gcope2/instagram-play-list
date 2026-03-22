@@ -46,24 +46,31 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
         background-color: var(--ddd-theme-accent);
         font-family: var(--ddd-font-navigation);
       }
-      img {
+      .image-wrapper img {
         width: 300px;
         height: 300px;
         display: block;
-        align-self: center;
-        border: 2px solid blue;
+        margin: 0 auto;
       }
-      button {
-        background-color: var(--ddd-theme-default-white);
-        color: var(--ddd-theme-default-beaverBlue);
-        border-color: var(--ddd-theme-default-beaverBlue);
+      .likes-counter {
+        display: flex;
+        align-items: center;
+        gap: var(--ddd-spacing-2);
+        margin-top: var(--ddd-spacing-15);
       }
-      .button-wrapper {
-        text-align: center;
+      .heart {
+        color: black;
+        font-size: var(--ddd-font-size-m);
+        font-weight: var(--ddd-font-weight-semiBold);
       }
-      .data-text {
-        border: 2px solid green;
-        display: inline-block;
+      .url-wrapper a {
+        color: black;
+        text-decoration: none;
+        font-size: var(--ddd-font-size-xs);
+        font-weight: normal;
+      }
+      .wrapper {
+        margin-top: -20px;
       }
     `];
   }
@@ -72,64 +79,66 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
   // Lit render the HTML
   render() {
     return html`
-      <div class="text-wrapper">
-        <p></p>
+      <div class="wrapper">
+        <div>
+          <h3>Author</h3>
+        </div>
+
+        <div class="image-wrapper"></div>
+
+        <div class="likes-counter">
+          <span class="heart">♡</span>
+          <span class="likes-text">362 Likes</span>
+        </div>
+
+        <div class="url-wrapper"></div>
+
+        <div>
+          <p>Description.............................</p>
+        </div>
       </div>
-      <div class="button-wrapper">
-        <button>Click for foxes</button>
-      </div>`;
+      `;
   }
 
   firstUpdated() {
     super.firstUpdated();
-    this.loadInitialFox();
-    this.setupButtonListener();
+    this.getFoxes();
   }
 
   loadInitialFox() {
-    const response = {
-      "data": [
-        {
-          "image": "https://randomfox.ca/images/39.jpg",
-          "link": "https://randomfox.ca/?i=39"
-        }
-      ]
-    };
-
-    const p = this.shadowRoot.querySelector('p');
-    response.data.forEach((i) => {
-      const textSpan = document.createElement('span');
-      textSpan.className = 'data-text';
-      textSpan.innerHTML = i.link;
-      p.appendChild(textSpan);
-      const image = document.createElement('img');
-      image.src = i.image;
-      p.appendChild(image);
-    });
-  }
-
-  setupButtonListener() {
-    const button = this.shadowRoot.querySelector('button');
-    button.addEventListener('click', (e) => {
-      this.getFoxes();
-    });
+    this.getFoxes();
   }
 
   getFoxes() {
-    fetch("https://randomfox.ca/floof/").then((resp) => {
-      if (resp.ok) {
-        return resp.json();
-      }
-    }).then((data) => {
-      const p = this.shadowRoot.querySelector('p');
-      const textSpan = document.createElement('span');
-      textSpan.className = 'data-text';
-      textSpan.innerHTML = data.link;
-      p.appendChild(textSpan);
-      let image = document.createElement('img');
-      image.src = data.image;
-      p.appendChild(image);
-    });
+    fetch("https://randomfox.ca/floof/")
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        }
+        throw new Error('Network response was not ok');
+      })
+      .then((data) => {
+        const imageWrap = this.shadowRoot.querySelector('.image-wrapper');
+        const urlWrap = this.shadowRoot.querySelector('.url-wrapper');
+
+        imageWrap.innerHTML = '';
+        urlWrap.innerHTML = '';
+
+        const image = document.createElement('img');
+        image.src = data.image;
+        image.alt = 'Random fox';
+        imageWrap.appendChild(image);
+
+        const link = document.createElement('a');
+        link.href = data.link;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        link.textContent = data.link;
+        urlWrap.appendChild(link);
+      })
+      .catch((error) => {
+        console.error('Failed to load fox image:', error);
+      });
   }
 }
 

@@ -54,38 +54,9 @@ export class InstagramPlayList extends DDDSuper(I18NMixin(LitElement)) {
         display: flex;
         justify-content: center;
       }
-      .title-top {
-        color: var(--ddd-theme-default-skyBlue);
-        font-size: var(--ddd-font-size-s);
-      }
-      .slide-title {
-        margin-top: var(--ddd-spacing-2);
-        margin-bottom: var(--ddd-spacing-10);
-        color: var(--ddd-theme-default-beaverBlue);
-        font-size: var(--ddd-font-size-xl);
-        font-weight: var(--ddd-font-weight-bold);
-      }
-      .slide-content {
-        margin-bottom: var(--ddd-spacing-4);
-        font-size: var(--ddd-font-size-xs);
-        width: 400px;
-        height: 150px;
-        overflow-y: auto;
-        overflow-x: hidden;
-        color: black;
-      }
-      .line {
-        margin-top: var(--ddd-spacing-10);
-        border: none;
-        border-top: 3px solid var(--ddd-theme-default-skyBlue);
-        justify-self: left;
-        width: 100px;
-        margin-left: 0;
-        padding-bottom: 0;
-      }
       .arrow-wrapper {
         position: relative;
-        top: -42px;
+        top: -135px;
       }
     `];
   }

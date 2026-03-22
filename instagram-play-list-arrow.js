@@ -40,22 +40,29 @@ export class InstagramPlayListArrow extends DDDSuper(I18NMixin(LitElement)) {
       }
       .back-wrapper {
         justify-content: left;
-        margin-left: 0px;
+        margin-left: 5px;
+        margin-top: -68px;
       }
       .next-wrapper {
         justify-content: right;
-        margin-right: 0px;
+        margin-right: 5px;
+        margin-top: -68px;
       }
       button {
         background-color: var(--ddd-theme-default-white);
         color: var(--ddd-theme-default-beaverBlue);
         border-color: var(--ddd-theme-default-beaverBlue);
-        padding: var(--ddd-spacing-2) var(--ddd-spacing-4);
+        padding: var(--ddd-spacing-2) var(--ddd-spacing-2);
         border-radius: var(--ddd-radius-rounded);
+        width: 37px;
+        height: 37px;
         cursor: pointer;
-        font-size: var(--ddd-font-size-s);
-        font-weight: var(--ddd-font-weight-black);
+        font-size: var(--ddd-font-size-xs);
+        font-weight: var(--ddd-font-weight-bold);
         border-width: var(--ddd-border-size-md);
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       button:hover {
         opacity: 0.8;
