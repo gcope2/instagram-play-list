@@ -40,12 +40,12 @@ export class InstagramPlayListArrow extends DDDSuper(I18NMixin(LitElement)) {
       }
       .back-wrapper {
         justify-content: left;
-        margin-left: 5px;
+        margin-left: var(--ddd-spacing-2);
         margin-top: -68px;
       }
       .next-wrapper {
         justify-content: right;
-        margin-right: 5px;
+        margin-right: var(--ddd-spacing-2);
         margin-top: -68px;
       }
       button {

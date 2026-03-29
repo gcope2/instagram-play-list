@@ -20,6 +20,8 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
 
   constructor() {
     super();
+    this.authorText = "Author";
+    this.descriptionText = "Description";
     this.title = "";
     this.t = this.t || {};
     this.t = {
@@ -33,6 +35,8 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
     return {
       ...super.properties,
       title: { type: String },
+      authorText: { type: String },
+      descriptionText: { type: String },
     };
   }
 
@@ -42,7 +46,7 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
     css`
       :host {
         display: block;
-        color: black;
+        color: var(--ddd-theme-default-black);
         background-color: var(--ddd-theme-accent);
         font-family: var(--ddd-font-navigation);
       }
@@ -56,21 +60,23 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
         display: flex;
         align-items: center;
         gap: var(--ddd-spacing-2);
-        margin-top: var(--ddd-spacing-15);
+        margin-top: var(--ddd-spacing-14);
       }
       .heart {
-        color: black;
+        color: var(--ddd-theme-default-black);
         font-size: var(--ddd-font-size-m);
         font-weight: var(--ddd-font-weight-semiBold);
       }
       .url-wrapper a {
-        color: black;
+        color: var(--ddd-theme-default-black);
         text-decoration: none;
         font-size: var(--ddd-font-size-xs);
-        font-weight: normal;
+        font-weight: var(--ddd-font-weight-regular);
       }
-      .wrapper {
-        margin-top: -20px;
+      .author-text {
+        color: var(--ddd-theme-default-black);
+        margin-top: var(--ddd-spacing-2);
+        margin-bottom: var(--ddd-spacing-2);
       }
     `];
   }
@@ -81,7 +87,7 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
     return html`
       <div class="wrapper">
         <div>
-          <h3>Author</h3>
+          <h3 class="author-text">${this.authorText}</h3>
         </div>
 
         <div class="image-wrapper"></div>
@@ -91,10 +97,8 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
           <span class="likes-text">362 Likes</span>
         </div>
 
-        <div class="url-wrapper"></div>
-
         <div>
-          <p>Description.............................</p>
+          <p class="description-text">${this.descriptionText}</p>
         </div>
       </div>
       `;
@@ -102,15 +106,15 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
 
   firstUpdated() {
     super.firstUpdated();
-    this.getFoxes();
+    this.getData();
   }
 
   loadInitialFox() {
-    this.getFoxes();
+    this.getData();
   }
 
-  getFoxes() {
-    fetch("https://randomfox.ca/floof/")
+  getData() {
+    fetch('./data.json')
       .then((resp) => {
         if (resp.ok) {
           return resp.json();
@@ -118,26 +122,34 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
         throw new Error('Network response was not ok');
       })
       .then((data) => {
+        if (!data || !data.images || data.images.length === 0) {
+          console.error('No images found in JSON data');
+          return;
+        }
+
         const imageWrap = this.shadowRoot.querySelector('.image-wrapper');
-        const urlWrap = this.shadowRoot.querySelector('.url-wrapper');
 
         imageWrap.innerHTML = '';
-        urlWrap.innerHTML = '';
+
+        const images = data.images.flatMap(item => Object.values(item));
+        const randomIndex = Math.floor(Math.random() * images.length);
+        const selectedImage = images[randomIndex];
+
+        if (!selectedImage || !selectedImage.url) {
+          console.error('Selected image has no URL');
+          return;
+        }
+
+        this.authorText = selectedImage.author || 'Unknown Author';
+        this.descriptionText = selectedImage.description || 'No description available';
 
         const image = document.createElement('img');
-        image.src = data.image;
-        image.alt = 'Random fox';
+        image.src = selectedImage.url;
+        image.alt = selectedImage.description || 'Image';
         imageWrap.appendChild(image);
-
-        const link = document.createElement('a');
-        link.href = data.link;
-        link.target = '_blank';
-        link.rel = 'noopener';
-        link.textContent = data.link;
-        urlWrap.appendChild(link);
       })
       .catch((error) => {
-        console.error('Failed to load fox image:', error);
+        console.error('Failed to load image from JSON:', error);
       });
   }
 }
