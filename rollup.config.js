@@ -3,6 +3,7 @@ import babel from '@rollup/plugin-babel';
 import { rollupPluginHTML as html } from '@web/rollup-plugin-html';
 import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
 import esbuild from 'rollup-plugin-esbuild';
+import copy from 'rollup-plugin-copy';
 
 export default {
   input: 'index.html',
@@ -29,6 +30,12 @@ export default {
     }),
     /** Bundle assets references via import.meta.url */
     importMetaAssets(),
+    /** Copy static files */
+    copy({
+      targets: [
+        { src: 'data.json', dest: 'public' }
+      ]
+    }),
     /** Minify html and css tagged template literals */
     babel({
       plugins: [
