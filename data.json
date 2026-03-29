@@ -1,0 +1,95 @@
+{
+    "images": [
+        {
+        "image1": {
+            "url": "https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=1024x1024&w=0&k=20&c=z8_rWaI8x4zApNEEG9DnWlGXyDIXe-OmsAyQ5fGPVV8=",
+            "description": "A brilliant sunrise bathes the rolling mountain ridges in warm golden light, with vibrant green grass glowing on the hillside under a colorful sky filled with soft clouds.",
+            "title": "Golden Mountain Sunrise",
+            "author": "Emma Thompson"
+        },
+        "image2": {
+            "url": "https://img.freepik.com/free-photo/beautiful-lake-mountains_395237-44.jpg?semt=ais_hybrid&w=740&q=80",
+            "description": "A perfectly calm mountain lake mirrors the lush green peaks and bright blue sky, creating a peaceful and symmetrical reflection on a bright sunny day.",
+            "title": "Serene Mountain Lake",
+            "author": "Jane Smith"
+        },
+        "image3": {
+            "url": "https://t4.ftcdn.net/jpg/02/91/24/27/360_F_291242770_z3XC7rJB1Mvc5jVMsEY9Dx2xMrX4sxUi.jpg",
+            "description": "A peaceful dirt path winds gently along the edge of a tranquil mountain lake, surrounded by dense evergreen forests shrouded in soft morning mist.",
+            "title": "Misty Forest Trail",
+            "author": "Alice Johnson"
+        },
+        "image4": {
+            "url": "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-souvenirpixels-417074.jpg&fm=jpg",
+            "description": "Dramatic orange light bathes the rugged, snow-dusted peaks as their reflections shimmer in the crystal-clear turquoise waters of a serene alpine lake.",
+            "title": "Sunset Mountain Lake",
+            "author": "Bob Wilson"
+        },
+        "image5": {
+            "url": "https://www.stefan-hefele.de/wp-content/uploads/2020/11/Dreaming-of-Wilderness-768x576.jpg",
+            "description": "Vibrant turquoise waters perfectly reflect the dramatic, snow-capped mountain peaks under a partly cloudy sky, framed by evergreen trees and fallen logs along the shore.",
+            "title": "Turquoise Mountain Lake",
+            "author": "Charlie Brown"
+        },
+        "image6": {
+            "url": "https://content.skyscnr.com/m/17facff22bc5efda/original/GettyImages-138160482_doc.jpg?resize=1224%3Aauto",
+            "description": "Vivid turquoise waters sparkle under a clear blue sky, perfectly reflecting towering snow-capped peaks while evergreen trees and a rocky shoreline frame the serene alpine scene.",
+            "title": "Crystal Turquoise Lake",
+            "author": "David Lee"
+        },
+        "image7": {
+            "url": "https://www.travelandleisure.com/thmb/oFVPO6aj_f-1TKjLAihpGmWezx4=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/TAL-north-carolina-NATBEAUTYST0225-c51b14f4e0ca438b99effa7ce2c275c5.jpg",
+            "description": "A crystal-clear stream rushes and tumbles over moss-covered rocks through a lush, vibrant green forest, creating peaceful cascades amid dense foliage and towering trees.",
+            "title": "Cascading Forest Stream",
+            "author": "Eve Davis"
+        },
+        "image8": {
+            "url": "https://t4.ftcdn.net/jpg/02/55/17/43/360_F_255174366_ojDuATz84e5h7lIlxh2moUJa9Kpd5wKk.jpg",
+            "description": "Golden sunbeams pierce through a dense canopy of tall trees, illuminating a peaceful forest path with vibrant green leaves and dappled light on the forest floor.",
+            "title": "Sunlit Forest Path",
+            "author": "Frank Miller"
+        },
+        "image9": {
+            "url": "https://www.stockvault.net/data/2011/05/31/124348/thumb16.jpg",
+            "description": "A winding wooden boardwalk curves gently through a lush, vibrant jungle filled with dense ferns and towering tropical trees, inviting a peaceful walk into the greenery.",
+            "title": "Jungle Boardwalk",
+            "author": "Grace Wilson"
+        },
+        "image10": {
+            "url": "https://sb.ecobnb.net/app/uploads/sites/3/2020/01/nature.jpg",
+            "description": "Dramatic golden sunbeams break through dramatic clouds at sunset, casting radiant light across a vast mountain range and a lush green hillside in the foreground.",
+            "title": "Sunbeams Over Mountain",
+            "author": "Henry Taylor"
+        },
+        "image11": {
+            "url": "https://i0.wp.com/digital-photography-school.com/wp-content/uploads/2018/10/bluebells%2C_oxfordshire.jpg?fit=1500%2C1000&ssl=1",
+            "description": "A magical forest floor blanketed in vibrant blue and purple bluebells, with sunlight filtering through tall trees and casting long shadows across the blooming carpet.",
+            "title": "Purple Bluebell Forest",
+            "author": "Ivy Chen"
+        },
+        "image12": {
+            "url": "https://depositphotos-blog.s3.eu-west-1.amazonaws.com/uploads/2017/07/Soothing-nature-backgrounds-2-1024x684.jpg",
+            "description": "A majestic snow-capped mountain rises above low-hanging mist, its dramatic reflection perfectly captured in the calm, glassy waters of a serene alpine lake at dawn.",
+            "title": "Mist Over Mirror Lake",
+            "author": "Sophie Rivera"
+        },
+        "image13": {
+            "url": "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_960_720.jpg",
+            "description": "Dramatic lightning strikes across a moody, cloudy sky as two lone trees stand on a rocky island, their reflections shimmering in the calm waters of a mountain lake.",
+            "title": "Stormy Lake Lightning",
+            "author": "Elena Vargas"
+        },
+        "image14": {
+            "url": "https://img.freepik.com/free-photo/scenic-view-mountains-lake_53876-138187.jpg?semt=ais_hybrid&w=740&q=80",
+            "description": "A perfectly still mountain lake mirrors the rugged peaks and clear blue sky, with colorful wildflowers and autumn foliage framing the serene shoreline in the foreground.",
+            "title": "Reflective Alpine Lake",
+            "author": "Olivia Brown"
+        },
+        "image15": {
+            "url": "https://121clicks.com/wp-content/uploads/2024/09/nature-landscape-photography-iphone-winners-12.jpg",
+            "description": "A tranquil winding path disappears into thick morning mist, surrounded by tall trees and vibrant golden ferns that glow softly in the ethereal forest light.",
+            "title": "Misty Forest Path",
+            "author": "Sophia Lee"
+        }
+    }]
+}
