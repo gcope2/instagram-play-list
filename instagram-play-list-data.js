@@ -3,8 +3,11 @@
  * @license Apache-2.0, see LICENSE for full text.
  */
 import { LitElement, html, css } from "lit";
+import { classMap } from 'lit/directives/class-map.js';
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
+import "./instagram-play-list-arrow.js";
+import "./instagram-play-list-slide.js";
 
 /**
  * `instagram-play-list-data`
@@ -15,28 +18,23 @@ import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
 export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
 
   static get tag() {
-    return "instagram-play-list-data";
+    return "instagram-play-list";
   }
 
   constructor() {
     super();
-    this.authorText = "Author";
-    this.descriptionText = "Description";
-    this.title = "";
-    this.t = this.t || {};
-    this.t = {
-      ...this.t,
-      title: "Title",
-    };
+    this.curIndex = 0;
+    this.images = [];
+    this.likes = {};
   }
 
   // Lit reactive properties
   static get properties() {
     return {
       ...super.properties,
-      title: { type: String },
-      authorText: { type: String },
-      descriptionText: { type: String },
+      curIndex: { type: Number, reflect: true },
+      images: { type: Array },
+      likes: { type: Object },
     };
   }
 
@@ -46,112 +44,239 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
     css`
       :host {
         display: block;
-        color: var(--ddd-theme-default-black);
-        background-color: var(--ddd-theme-accent);
+        background-color: var(--ddd-theme-default-slateMaxLight);
         font-family: var(--ddd-font-navigation);
+        width: 350px;
+        height: 600px;
+        margin: var(--ddd-spacing-2) var(--ddd-spacing-2) var(--ddd-spacing-2) 25px !important;
+        box-shadow: var(--ddd-boxShadow-xl);
       }
-      .image-wrapper img {
+      .wrapper {
+        display: flex;
+        justify-content: center;
+      }
+      .slide-content {
+        display: absolute;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        box-sizing: border-box;
+        padding: var(--ddd-spacing-2);
+        min-height: 500px;
+      }
+      .slide-content > img {
         width: 300px;
         height: 300px;
+        object-fit: cover;
         display: block;
         margin: 0 auto;
       }
-      .likes-counter {
+      .profile-pic {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+      }
+      .description {
+        min-height: 40px;
+      }
+      .author-row {
         display: flex;
         align-items: center;
         gap: var(--ddd-spacing-2);
-        margin-top: var(--ddd-spacing-14);
-      }
-      .heart {
-        color: var(--ddd-theme-default-black);
-        font-size: var(--ddd-font-size-m);
-        font-weight: var(--ddd-font-weight-semiBold);
-      }
-      .url-wrapper a {
-        color: var(--ddd-theme-default-black);
-        text-decoration: none;
-        font-size: var(--ddd-font-size-xs);
-        font-weight: var(--ddd-font-weight-regular);
+        margin: var(--ddd-spacing-2);
       }
       .author-text {
-        color: var(--ddd-theme-default-black);
+        font-size: var(--ddd-font-size-s);
+        margin: 0;
+      }
+      .title-text {
         margin-top: var(--ddd-spacing-2);
-        margin-bottom: var(--ddd-spacing-2);
+        font-size: var(--ddd-font-size-s);
+        color: var(--ddd-theme-default-black);
+        margin-bottom: var(--ddd-spacing-1);
+      }
+      .description {
+        max-width: 300px;
+      }
+      .likes-date-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: var(--ddd-spacing-12);
+      }
+      .likes-counter {
+        display: flex;
+        gap: var(--ddd-spacing-2);
+        align-items: center;
+      }
+      .date-taken {
+        font-size: var(--ddd-font-size-xs);
+        color: var(--ddd-theme-default-black);
+      }
+      .heart {
+        font-size: var(--ddd-font-size-l);
+        color: var(--ddd-theme-default-black);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+      }
+      .arrow-wrapper {
+        position: relative;
+        top: -212px;
       }
     `];
   }
-
 
   // Lit render the HTML
   render() {
     return html`
       <div class="wrapper">
-        <div>
-          <h3 class="author-text">${this.authorText}</h3>
-        </div>
+        ${this.images.length > 0
+          ? this.images.map((image, index) => html`
+              <instagram-play-list-slide ?active=${index === this.curIndex}>
 
-        <div class="image-wrapper"></div>
+                <div class="slide-content">
+                  <div class="author-row">
+                    <img
+                      class="profile-pic"
+                      src="${image['profile-pic'] || ''}"
+                      alt="${image.author || 'Unknown Author'} profile picture"
+                    />
+                    <h3 class="author-text">${image.author || 'Unknown Author'}</h3>
+                  </div>
+                  <img
+                    src="${index === this.curIndex ? image.url : ''}"
+                    alt="${image.description || 'Image'}"
+                  />
+                  
+                  <div class="likes-date-wrapper">
+                    <div class="likes-counter">
+                      <span
+                        class=${classMap({heart: true, liked: Boolean(this.likes[image.url])})}
+                        @click=${() => this._toggleLike(image)}
+                      >${this.likes[image.url] ? '♥' : '♡'}</span>
+                      <span class="likes-text">${this.likes[image.url] ? 'Liked' : 'Not Liked'}</span>
+                    </div>
+                    <span class="date-taken">${image['date-taken'] ? this._formatDate(image['date-taken']) : ''}</span>
+                  </div>
+                  <h4 class="title-text">${image.title || ''}</h4>
+                  <p class="description">${image.description || ''}</p>
+                </div>
 
-        <div class="likes-counter">
-          <span class="heart">♡</span>
-          <span class="likes-text">362 Likes</span>
-        </div>
-
-        <div>
-          <p class="description-text">${this.descriptionText}</p>
-        </div>
+              </instagram-play-list-slide>
+            `)
+          : html`<div class="loading">Loading photos...</div>`}
       </div>
+
+      <div class="arrow-wrapper">
+          <instagram-play-list-arrow
+            @next-clicked=${this.next}
+            @prev-clicked=${this.back}>
+          </instagram-play-list-arrow>
+        </div>
       `;
   }
 
   firstUpdated() {
     super.firstUpdated();
-    this.getData();
+    this.loadImages();
   }
 
-  loadInitialFox() {
-    this.getData();
+  async loadImages() {
+    try {
+      const resp = await fetch('./data.json');
+      if (!resp.ok) throw new Error('Failed to load data.json');
+      const data = await resp.json();
+      const images = (data.images || []).flatMap((item) => Object.values(item));
+      this.images = images;
+      this._loadLikesFromStorage();
+      this._loadIndexFromStorage();
+    } catch (error) {
+      console.error('Error loading images:', error);
+    }
   }
 
-  getData() {
-    fetch('./data.json')
-      .then((resp) => {
-        if (resp.ok) {
-          return resp.json();
-        }
-        throw new Error('Network response was not ok');
-      })
-      .then((data) => {
-        if (!data || !data.images || data.images.length === 0) {
-          console.error('No images found in JSON data');
-          return;
-        }
-
-        const imageWrap = this.shadowRoot.querySelector('.image-wrapper');
-
-        imageWrap.innerHTML = '';
-
-        const images = data.images.flatMap(item => Object.values(item));
-        const randomIndex = Math.floor(Math.random() * images.length);
-        const selectedImage = images[randomIndex];
-
-        if (!selectedImage || !selectedImage.url) {
-          console.error('Selected image has no URL');
-          return;
-        }
-
-        this.authorText = selectedImage.author || 'Unknown Author';
-        this.descriptionText = selectedImage.description || 'No description available';
-
-        const image = document.createElement('img');
-        image.src = selectedImage.url;
-        image.alt = selectedImage.description || 'Image';
-        imageWrap.appendChild(image);
-      })
-      .catch((error) => {
-        console.error('Failed to load image from JSON:', error);
-      });
+  _loadLikesFromStorage() {
+    try {
+      const saved = window.localStorage.getItem('instagramPlayListLikes');
+      if (saved) {
+        this.likes = JSON.parse(saved);
+      }
+    } catch (err) {
+      console.warn('Could not read likes from localStorage', err);
+      this.likes = {};
+    }
   }
+
+  _loadIndexFromStorage() {
+    try {
+      const saved = window.localStorage.getItem('instagramPlayListCurrentIndex');
+      if (saved !== null) {
+        const index = parseInt(saved, 10);
+        if (index >= 0 && index < this.images.length) {
+          this.curIndex = index;
+        }
+      }
+    } catch (err) {
+      console.warn('Could not read index from localStorage', err);
+    }
+  }
+
+  _saveIndexToStorage() {
+    window.localStorage.setItem('instagramPlayListCurrentIndex', this.curIndex.toString());
+  }
+
+  _saveLikesToStorage() {
+    window.localStorage.setItem('instagramPlayListLikes', JSON.stringify(this.likes));
+  }
+
+  _toggleLike(image) {
+    if (!image || !image.url) return;
+    const key = image.url;
+    const liked = Boolean(this.likes[key]);
+    this.likes = {
+      ...this.likes,
+      [key]: !liked,
+    };
+    this._saveLikesToStorage();
+  }
+
+  next() {
+    if (this.curIndex < this.images.length - 1) {
+      this.curIndex++;
+      this._saveIndexToStorage();
+    }
+  }
+
+  back() {
+    if (this.curIndex > 0) {
+      this.curIndex--;
+      this._saveIndexToStorage();
+    }
+  }
+
+  _handleIndexChange(e) {
+    const newIndex = e.detail.index;
+    if (newIndex >= 0 && newIndex < this.images.length) {
+      this.curIndex = newIndex;
+      this._saveIndexToStorage();
+    }
+  }
+
+  _formatDate(dateString) {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) return dateString;
+    return date.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  }
+
 }
 
 globalThis.customElements.define(InstagramPlayListData.tag, InstagramPlayListData);
