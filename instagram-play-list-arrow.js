@@ -26,6 +26,8 @@ export class InstagramPlayListArrow extends DDDSuper(I18NMixin(LitElement)) {
   static get properties() {
     return {
       ...super.properties,
+      activeIndex: { type: Number },
+      totalItems: { type: Number },
     };
   }
 
@@ -67,17 +69,33 @@ export class InstagramPlayListArrow extends DDDSuper(I18NMixin(LitElement)) {
       button:hover {
         opacity: 0.8;
       }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      button:disabled:hover {
+        opacity: 0.5;
+      }
     `];
   }
 
   // Lit render the HTML
   render() {
+    const isFirst = this.activeIndex === 0;
+    const isLast = this.activeIndex >= (this.totalItems - 1);
+
     return html`
     <div class="back-wrapper">
-      <button class="back" @click=${() => this.dispatchEvent(new CustomEvent('prev-clicked', {bubbles: true, composed: true }))}><</button>
+      <button
+      class="back" 
+      ?disabled=${isFirst}
+      @click=${() => this.dispatchEvent(new CustomEvent('prev-clicked', {bubbles: true, composed: true }))}><</button>
     </div>
     <div class="next-wrapper">
-      <button class="next" @click=${() => this.dispatchEvent(new CustomEvent('next-clicked', {bubbles: true, composed: true}))}>></button>
+      <button
+      class="next"
+      ?disabled=${isLast}
+      @click=${() => this.dispatchEvent(new CustomEvent('next-clicked', {bubbles: true, composed: true}))}>></button>
     </div>
     `;
   }

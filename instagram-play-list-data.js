@@ -222,8 +222,10 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
         </div>
       ` : '')}
 
-      <div class="arrow-wrapper">
+        <div class="arrow-wrapper">
           <instagram-play-list-arrow
+          activeIndex=${this.curIndex}
+          totalItems=${this.images.length}
             @next-clicked=${this.next}
             @prev-clicked=${this.back}>
           </instagram-play-list-arrow>
