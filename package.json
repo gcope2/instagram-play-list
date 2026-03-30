@@ -20,7 +20,7 @@
     "module": "instagram-play-list.js",
     "scripts": {
         "start": "web-dev-server",
-        "build": "rimraf public && rollup -c rollup.config.js && npm run analyze",
+        "build": "rimraf public && mkdir public && copy index.html public\\ && copy data.json public\\ && rollup -c rollup.config.js && npm run analyze",
         "analyze": "cem analyze --litelement --exclude public",
         "dddaudit": "hax audit",
         "release": "npm run build && commit-and-tag-version && git push --follow-tags origin main && npm publish",
