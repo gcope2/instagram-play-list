@@ -5601,32 +5601,31 @@ const e=globalThis,t=e.ShadowRoot&&(void 0===e.ShadyCSS||e.ShadyCSS.nativeShadow
       }
       .back-wrapper {
         justify-content: left;
-        margin-left: 5px;
-        margin-top: -68px;
+        margin-left: 2px;
+        margin-top: -60px;
       }
       .next-wrapper {
         justify-content: right;
-        margin-right: 5px;
-        margin-top: -68px;
+        margin-right: 2px;
+        margin-top: -60px;
       }
       button {
-        background-color: var(--ddd-theme-default-white);
-        color: var(--ddd-theme-default-beaverBlue);
-        border-color: var(--ddd-theme-default-beaverBlue);
-        padding: var(--ddd-spacing-2) var(--ddd-spacing-2);
-        border-radius: var(--ddd-radius-rounded);
-        width: 37px;
-        height: 37px;
         cursor: pointer;
-        font-size: var(--ddd-font-size-xs);
-        font-weight: var(--ddd-font-weight-bold);
-        border-width: var(--ddd-border-size-md);
         display: flex;
+        width: 40px;
+        height: 40px;
+        border-radius: 10%;
+        background-color: var(--ddd-theme-default-white);
+        color: var(--ddd-theme-default-black);
+        border-width: var(--ddd-border-size-md);
+        border-color: solid black;
+        font-size: var(--ddd-font-size-md);
+        font-weight: var(--ddd-font-weight-bold);
         justify-content: center;
         align-items: center;
       }
       button:hover {
-        opacity: 0.8;
+        opacity: 0.75;
       }
       button:disabled {
         opacity: 0.5;
@@ -5638,13 +5637,15 @@ const e=globalThis,t=e.ShadowRoot&&(void 0===e.ShadyCSS||e.ShadyCSS.nativeShadow
     `]}render(){const e=0===this.activeIndex,t=this.activeIndex>=this.totalItems-1;return q`
     <div class="back-wrapper">
       <button
-      class="back" 
+      class="back"
+      title="Back Button"
       ?disabled=${e}
       @click=${()=>this.dispatchEvent(new CustomEvent("prev-clicked",{bubbles:!0,composed:!0}))}><</button>
     </div>
     <div class="next-wrapper">
       <button
       class="next"
+      title="Next Button"
       ?disabled=${t}
       @click=${()=>this.dispatchEvent(new CustomEvent("next-clicked",{bubbles:!0,composed:!0}))}>></button>
     </div>
@@ -5698,60 +5699,42 @@ const e=globalThis,t=e.ShadowRoot&&(void 0===e.ShadyCSS||e.ShadyCSS.nativeShadow
         <img @click="${this._handleDotClick}" data-index="${t}" class="thumbnail ${t===this.curIndex?"active":""}" src="${this.images[t]?.url||""}" alt="Thumbnail ${t+1}" />
       `);return q`
       <div class="dots" tabindex="0">
-        <div class="track">
+        <div class="track" title="Image Thumbnail Button">
           ${e}
         </div>
       </div>
       `}_handleDotClick(e){const t=new CustomEvent("play-list-index-changed",{composed:!0,bubbles:!0,detail:{index:parseInt(e.target.dataset.index)}});this.dispatchEvent(t)}firstUpdated(){this._syncCarousel("auto")}updated(e){(e.has("curIndex")||e.has("images")||e.has("total"))&&this._syncCarousel()}_syncCarousel(e="smooth"){const t=this.renderRoot?.querySelector(".thumbnail.active");t&&t.scrollIntoView({behavior:e,inline:"center",block:"nearest"})}}globalThis.customElements.define(Qe.tag,Qe);class et extends(He(Ve(se))){static get tag(){return"instagram-play-list"}constructor(){super(),this.curIndex=0,this.images=[],this.likes={}}static get properties(){return{...super.properties,curIndex:{type:Number,reflect:!0},images:{type:Array},likes:{type:Object}}}static get styles(){return[super.styles,o`
       :host {
         display: block;
-        background-color: var(--ddd-theme-default-slateMaxLight);
-        font-family: var(--ddd-font-navigation);
-        width: 350px;
-        height: 610px;
-        margin: var(--ddd-spacing-2) var(--ddd-spacing-2) var(--ddd-spacing-2) 25px !important;
-        box-shadow: var(--ddd-boxShadow-xl);
-        color: black;
         position: relative;
-      }
-      .wrapper {
-        display: flex;
-        justify-content: center;
+        width: 350px;
+        height: 600px;
+        background-color: var(--ddd-theme-default-slateMaxLight);
+        color: var(--ddd-theme-default-black);
+        font-family: var(--ddd-font-navigation);
+        box-shadow: var(--ddd-boxShadow-xl);
+        margin: var(--ddd-spacing-2) var(--ddd-spacing-2) var(--ddd-spacing-2) 25px !important;
       }
       .slide-content {
         display: flex;
         flex-direction: column;
-        align-items: stretch;
-        width: 100%;
         box-sizing: border-box;
         padding: var(--ddd-spacing-2);
         min-height: 500px;
+        width: 100%;
       }
       .main-image {
-        display: absolute;
         width: 300px;
         height: 300px;
         object-fit: cover;
         display: block;
-        margin: 0 auto;
-        align-self: center;
-      }
-      .thumbnail-image {
-        display: absolute;
-        width: 40px;
-        height: 40px;
-        margin-top: var(--ddd-spacing-2);
+        margin: var(--ddd-spacing-2) auto;
         align-self: center;
       }
       .profile-pic {
-        display: absolute;
         width: 32px;
         height: 32px;
         border-radius: 50%;
-      }
-      .description {
-        display: absolute;
-        max-width: 300px;
       }
       .author-row {
         display: flex;
@@ -5760,130 +5743,155 @@ const e=globalThis,t=e.ShadowRoot&&(void 0===e.ShadyCSS||e.ShadyCSS.nativeShadow
         margin: var(--ddd-spacing-2);
       }
       .author-text {
-        display: absolute;
         font-size: var(--ddd-font-size-s);
         margin: 0;
       }
-      .title-text {
-        display: absolute;
-        margin-top: var(--ddd-spacing-2);
-        font-size: var(--ddd-font-size-s);
-        color: var(--ddd-theme-default-black);
-        margin-bottom: var(--ddd-spacing-1);
+      .author-info {
+        display: flex;
+        flex-direction: column;
+        margin-top: -10px;
       }
-      .likes-date-wrapper {
+      .username,
+      .user-since {
+        margin: 0 0 0 var(--ddd-spacing-12);
+        font-size: 15px;
+      }
+      .slide-footer {
+        position: absolute;
+        top: calc(300px + var(--ddd-spacing-16) + 60px);
+        left: 0;
+        right: 0;
+        padding: var(--ddd-spacing-2);
+        display: flex;
+        flex-direction: column;
+        max-width: 350px;
+        margin: 0 auto;
+      }
+      .likes-share-wrapper {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: var(--ddd-spacing-1);
+        margin-top: var(--ddd-spacing-5);
+        margin-left: var(--ddd-spacing-2);
+        margin-right: var(--ddd-spacing-2);
       }
       .likes-counter {
         display: flex;
         gap: var(--ddd-spacing-2);
         align-items: center;
       }
-      .date-taken {
-        display: absolute;
-        font-size: var(--ddd-font-size-xs);
-        color: var(--ddd-theme-default-black);
-      }
       .heart {
+        cursor: pointer;
         font-size: var(--ddd-font-size-l);
         color: var(--ddd-theme-default-black);
-        cursor: pointer;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         width: 24px;
         height: 24px;
       }
+      .date-taken {
+        font-size: 15px;
+        color: var(--ddd-theme-default-black);
+        margin-left: var(--ddd-spacing-2);
+      }
+      .share-button {
+        font-size: var(--ddd-font-size-xs);
+        border-width: var(--ddd-border-size-sm);
+        border-color: solid black;
+        border-radius: 10%;
+      }
+      .post-text {
+        display: flex;
+        align-items: baseline;
+        font-size: 17px;
+        gap: var(--ddd-spacing-2);
+        margin-left: var(--ddd-spacing-2);
+      }
+      .post-username {
+        font-weight: var(--ddd-font-weight-bold);
+      }
       .dots-area {
         position: absolute;
-        top: calc(var(--ddd-spacing-12) + 300px);
+        top: calc(var(--ddd-spacing-20) + 300px);
         left: 0;
         right: 0;
         padding: var(--ddd-spacing-2);
-      }
-      .slide-footer {
-        position: absolute;
-        top: calc(var(--ddd-spacing-2) + 300px + 60px);
-        left: 0;
-        right: 0;
-        padding: var(--ddd-spacing-2);
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        box-sizing: border-box;
-        max-width: 300px;
-        margin: 0 auto;
-        margin-top: var(--ddd-spacing-8);
       }
       .arrow-wrapper {
         position: relative;
         top: -85px;
+        margin-top: var(--ddd-spacing-8);
       }
     `]}render(){return q`
-      <div class="wrapper">
         ${this.images.length>0?this.images.map((e,t)=>q`
-              <instagram-play-list-slide ?active=${t===this.curIndex}>
 
+              <instagram-play-list-slide ?active=${t===this.curIndex}>
                 <div class="slide-content">
                   <div class="author-row">
-                    <img
-                      class="profile-pic"
+                    <img class="profile-pic"
                       src="${e["profile-pic"]||""}"
-                      alt="${e.author||"Unknown Author"} profile picture"
-                    />
+                      alt="${e.author||"Unknown Author"} profile picture"/>
                     <h3 class="author-text">${e.author||"Unknown Author"}</h3>
                   </div>
-                  <img
-                    class="main-image"
-                    src="${t===this.curIndex?e.url:""}"
-                    alt="${e.description||"Image"}"
-                  />
-                </div>
 
+                  <div class="author-info">
+                    <p class="username">@${e.username||"Unknown"}</p>
+                    <p class="user-since">User Since: ${e["user-since"]||"Unknown"}</p>
+                  </div>
+
+                  <img class="main-image"
+                    src="${t===this.curIndex?e.url:""}"
+                    alt="${e.description||"Image"}"/>
+                </div>
               </instagram-play-list-slide>
             `):q`<div class="loading">Loading photos...</div>`}
-      </div>
 
-      </div>
+        <div class="dots-area">
+          <instagram-play-list-dots
+            .images=${this.images}
+            .curIndex=${this.curIndex}
+            .total=${this.images.length}
+            @play-list-index-changed=${this._handleIndexChange}>
+          </instagram-play-list-dots>
+        </div>
 
-      <div class="dots-area">
-        <instagram-play-list-dots
-          .images=${this.images}
-          .curIndex=${this.curIndex}
-          .total=${this.images.length}
-          @play-list-index-changed=${this._handleIndexChange}>
-        </instagram-play-list-dots>
-      </div>
-
-      ${this.images.map((e,t)=>t===this.curIndex?q`
+        ${this.images.map((e,t)=>t===this.curIndex?q`
         <div class="slide-footer">
-          <div class="likes-date-wrapper">
+          <div class="likes-share-wrapper">
             <div class="likes-counter">
               <span
                 class=${Ke({heart:!0,liked:Boolean(this.likes[e.url])})}
+                title="Like Button"
                 @click=${()=>this._toggleLike(e)}
               >${this.likes[e.url]?"♥":"♡"}</span>
               <span class="likes-text">${this.likes[e.url]?"Liked":"Not Liked"}</span>
             </div>
-            <span class="date-taken">${e["date-taken"]?this._formatDate(e["date-taken"]):""}</span>
+            <div class="share-button">
+              <button class="share-button" title="Share Button" @click=${()=>this._sharePost(this.images[this.curIndex])}>Share</button>
+            </div>
           </div>
-          <h4 class="title-text">${e.title||""}</h4>
-          <p class="description">${e.description||""}</p>
+
+          <div class="post-text">
+            <p class="post-username">@${e.username||"Unknown"}</p>
+            <p class="title-text">${e.title||""}</p>
+          </div>
+
+          <div>
+          <span class="date-taken">Taken: ${e["date-taken"]?this._formatDate(e["date-taken"]):""}</span>
+          </div>
         </div>
       `:"")}
 
         <div class="arrow-wrapper">
           <instagram-play-list-arrow
-          activeIndex=${this.curIndex}
-          totalItems=${this.images.length}
+            activeIndex=${this.curIndex}
+            totalItems=${this.images.length}
             @next-clicked=${this.next}
             @prev-clicked=${this.back}>
           </instagram-play-list-arrow>
         </div>
-      `}firstUpdated(){super.firstUpdated(),this.loadImages()}async loadImages(){try{const e=await fetch("./data.json");if(!e.ok)throw new Error("Failed to load data.json");const t=((await e.json()).images||[]).flatMap(e=>Object.values(e));this.images=t,this._loadLikesFromStorage(),this._loadIndexFromStorage();const a=new URLSearchParams(window.location.search).get("slide");if(null!==a){const e=parseInt(a,10)-1;!isNaN(e)&&e>=0&&e<this.images.length&&(this.curIndex=e)}this._updateUrl()}catch(e){console.error("Error loading images:",e)}}_loadLikesFromStorage(){try{const e=window.localStorage.getItem("instagramPlayListLikes");e&&(this.likes=JSON.parse(e))}catch(e){console.warn("Could not read likes from localStorage",e),this.likes={}}}_loadIndexFromStorage(){try{const e=window.localStorage.getItem("instagramPlayListCurrentIndex");if(null!==e){const t=parseInt(e,10);t>=0&&t<this.images.length&&(this.curIndex=t)}}catch(e){console.warn("Could not read index from localStorage",e)}}_saveIndexToStorage(){window.localStorage.setItem("instagramPlayListCurrentIndex",this.curIndex.toString())}_saveLikesToStorage(){window.localStorage.setItem("instagramPlayListLikes",JSON.stringify(this.likes))}_toggleLike(e){if(!e||!e.url)return;const t=e.url,a=Boolean(this.likes[t]);this.likes={...this.likes,[t]:!a},this._saveLikesToStorage()}next(){this.curIndex<this.images.length-1&&(this.curIndex++,this._saveIndexToStorage(),this._updateUrl())}back(){this.curIndex>0&&(this.curIndex--,this._saveIndexToStorage(),this._updateUrl())}_handleIndexChange(e){const t=e.detail.index;t>=0&&t<this.images.length&&(this.curIndex=t,this._saveIndexToStorage(),this._updateUrl())}_updateUrl(){const e=new URL(window.location);e.searchParams.set("slide",(this.curIndex+1).toString()),window.history.replaceState(null,"",e)}_formatDate(e){if(!e)return"";const t=new Date(e);return Number.isNaN(t.getTime())?e:t.toLocaleDateString(void 0,{year:"numeric",month:"short",day:"numeric"})}}globalThis.customElements.define(et.tag,et);class tt extends(He(Ve(se))){static get tag(){return"instagram-play-list-data"}constructor(){super()}static get properties(){return{...super.properties,title:{type:String},authorText:{type:String},descriptionText:{type:String}}}static get styles(){return[super.styles,o`
+        `}firstUpdated(){super.firstUpdated(),this.loadImages()}_sharePost(e){if(!e)return;const t={title:e.title||"Check out this post!",text:e.description||"Check out this post!",url:window.location.href};navigator.share?navigator.share(t).catch(e=>console.error("Share failed:",e)):(navigator.clipboard.writeText(t.url),alert("Link copied to clipboard!"))}async loadImages(){try{const e=await fetch("./data.json");if(!e.ok)throw new Error("Failed to load data.json");const t=await e.json();this.images=(t.images||[]).flatMap(e=>Object.values(e)),this._loadLikesFromStorage(),this._loadIndexFromStorage();const a=new URLSearchParams(window.location.search).get("slide");if(null!==a){const e=parseInt(a,10)-1;!isNaN(e)&&e>=0&&e<this.images.length&&(this.curIndex=e)}this._updateUrl()}catch(e){console.error("Error loading images:",e)}}_loadLikesFromStorage(){try{const e=window.localStorage.getItem("instagramPlayListLikes");e&&(this.likes=JSON.parse(e))}catch(e){console.warn("Could not read likes from localStorage",e),this.likes={}}}_loadIndexFromStorage(){try{const e=window.localStorage.getItem("instagramPlayListCurrentIndex");if(null!==e){const t=parseInt(e,10);t>=0&&t<this.images.length&&(this.curIndex=t)}}catch(e){console.warn("Could not read index from localStorage",e)}}_saveIndexToStorage(){window.localStorage.setItem("instagramPlayListCurrentIndex",this.curIndex.toString())}_saveLikesToStorage(){window.localStorage.setItem("instagramPlayListLikes",JSON.stringify(this.likes))}_toggleLike(e){if(!e||!e.url)return;const t=e.url;this.likes={...this.likes,[t]:!Boolean(this.likes[t])},this._saveLikesToStorage()}next(){this.curIndex<this.images.length-1&&(this.curIndex++,this._saveIndexToStorage(),this._updateUrl())}back(){this.curIndex>0&&(this.curIndex--,this._saveIndexToStorage(),this._updateUrl())}_handleIndexChange(e){const t=e.detail.index;t>=0&&t<this.images.length&&(this.curIndex=t,this._saveIndexToStorage(),this._updateUrl())}_updateUrl(){const e=new URL(window.location);e.searchParams.set("slide",(this.curIndex+1).toString()),window.history.replaceState(null,"",e)}_formatDate(e){if(!e)return"";const t=new Date(e);return Number.isNaN(t.getTime())?e:t.toLocaleDateString(void 0,{year:"numeric",month:"short",day:"numeric"})}}globalThis.customElements.define(et.tag,et);class tt extends(He(Ve(se))){static get tag(){return"instagram-play-list-data"}constructor(){super()}static get properties(){return{...super.properties,title:{type:String},authorText:{type:String},descriptionText:{type:String}}}static get styles(){return[super.styles,o`
       :host {
         display: block;
         color: var(--ddd-theme-default-black);
