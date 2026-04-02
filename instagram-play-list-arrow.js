@@ -42,32 +42,31 @@ export class InstagramPlayListArrow extends DDDSuper(I18NMixin(LitElement)) {
       }
       .back-wrapper {
         justify-content: left;
-        margin-left: 5px;
-        margin-top: -68px;
+        margin-left: 2px;
+        margin-top: -60px;
       }
       .next-wrapper {
         justify-content: right;
-        margin-right: 5px;
-        margin-top: -68px;
+        margin-right: 2px;
+        margin-top: -60px;
       }
       button {
-        background-color: var(--ddd-theme-default-white);
-        color: var(--ddd-theme-default-beaverBlue);
-        border-color: var(--ddd-theme-default-beaverBlue);
-        padding: var(--ddd-spacing-2) var(--ddd-spacing-2);
-        border-radius: var(--ddd-radius-rounded);
-        width: 37px;
-        height: 37px;
         cursor: pointer;
-        font-size: var(--ddd-font-size-xs);
-        font-weight: var(--ddd-font-weight-bold);
-        border-width: var(--ddd-border-size-md);
         display: flex;
+        width: 40px;
+        height: 40px;
+        border-radius: 10%;
+        background-color: var(--ddd-theme-default-white);
+        color: var(--ddd-theme-default-black);
+        border-width: var(--ddd-border-size-md);
+        border-color: solid black;
+        font-size: var(--ddd-font-size-md);
+        font-weight: var(--ddd-font-weight-bold);
         justify-content: center;
         align-items: center;
       }
       button:hover {
-        opacity: 0.8;
+        opacity: 0.75;
       }
       button:disabled {
         opacity: 0.5;
@@ -87,13 +86,15 @@ export class InstagramPlayListArrow extends DDDSuper(I18NMixin(LitElement)) {
     return html`
     <div class="back-wrapper">
       <button
-      class="back" 
+      class="back"
+      title="Back Button"
       ?disabled=${isFirst}
       @click=${() => this.dispatchEvent(new CustomEvent('prev-clicked', {bubbles: true, composed: true }))}><</button>
     </div>
     <div class="next-wrapper">
       <button
       class="next"
+      title="Next Button"
       ?disabled=${isLast}
       @click=${() => this.dispatchEvent(new CustomEvent('next-clicked', {bubbles: true, composed: true}))}>></button>
     </div>

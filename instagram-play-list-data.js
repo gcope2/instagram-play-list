@@ -6,6 +6,7 @@ import { LitElement, html, css } from "lit";
 import { classMap } from 'lit/directives/class-map.js';
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
+
 import "./instagram-play-list-arrow.js";
 import "./instagram-play-list-slide.js";
 import "./instagram-play-list-dots.js";
@@ -45,53 +46,35 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
     css`
       :host {
         display: block;
-        background-color: var(--ddd-theme-default-slateMaxLight);
-        font-family: var(--ddd-font-navigation);
-        width: 350px;
-        height: 610px;
-        margin: var(--ddd-spacing-2) var(--ddd-spacing-2) var(--ddd-spacing-2) 25px !important;
-        box-shadow: var(--ddd-boxShadow-xl);
-        color: black;
         position: relative;
-      }
-      .wrapper {
-        display: flex;
-        justify-content: center;
+        width: 350px;
+        height: 600px;
+        background-color: var(--ddd-theme-default-slateMaxLight);
+        color: var(--ddd-theme-default-black);
+        font-family: var(--ddd-font-navigation);
+        box-shadow: var(--ddd-boxShadow-xl);
+        margin: var(--ddd-spacing-2) var(--ddd-spacing-2) var(--ddd-spacing-2) 25px !important;
       }
       .slide-content {
         display: flex;
         flex-direction: column;
-        align-items: stretch;
-        width: 100%;
         box-sizing: border-box;
         padding: var(--ddd-spacing-2);
         min-height: 500px;
+        width: 100%;
       }
       .main-image {
-        display: absolute;
         width: 300px;
         height: 300px;
         object-fit: cover;
         display: block;
-        margin: 0 auto;
-        align-self: center;
-      }
-      .thumbnail-image {
-        display: absolute;
-        width: 40px;
-        height: 40px;
-        margin-top: var(--ddd-spacing-2);
+        margin: var(--ddd-spacing-2) auto;
         align-self: center;
       }
       .profile-pic {
-        display: absolute;
         width: 32px;
         height: 32px;
         border-radius: 50%;
-      }
-      .description {
-        display: absolute;
-        max-width: 300px;
       }
       .author-row {
         display: flex;
@@ -100,67 +83,85 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
         margin: var(--ddd-spacing-2);
       }
       .author-text {
-        display: absolute;
         font-size: var(--ddd-font-size-s);
         margin: 0;
       }
-      .title-text {
-        display: absolute;
-        margin-top: var(--ddd-spacing-2);
-        font-size: var(--ddd-font-size-s);
-        color: var(--ddd-theme-default-black);
-        margin-bottom: var(--ddd-spacing-1);
+      .author-info {
+        display: flex;
+        flex-direction: column;
+        margin-top: -10px;
       }
-      .likes-date-wrapper {
+      .username,
+      .user-since {
+        margin: 0 0 0 var(--ddd-spacing-12);
+        font-size: 15px;
+      }
+      .slide-footer {
+        position: absolute;
+        top: calc(300px + var(--ddd-spacing-16) + 60px);
+        left: 0;
+        right: 0;
+        padding: var(--ddd-spacing-2);
+        display: flex;
+        flex-direction: column;
+        max-width: 350px;
+        margin: 0 auto;
+      }
+      .likes-share-wrapper {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: var(--ddd-spacing-1);
+        margin-top: var(--ddd-spacing-5);
+        margin-left: var(--ddd-spacing-2);
+        margin-right: var(--ddd-spacing-2);
       }
       .likes-counter {
         display: flex;
         gap: var(--ddd-spacing-2);
         align-items: center;
       }
-      .date-taken {
-        display: absolute;
-        font-size: var(--ddd-font-size-xs);
-        color: var(--ddd-theme-default-black);
-      }
       .heart {
+        cursor: pointer;
         font-size: var(--ddd-font-size-l);
         color: var(--ddd-theme-default-black);
-        cursor: pointer;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         width: 24px;
         height: 24px;
       }
+      .date-taken {
+        font-size: 15px;
+        color: var(--ddd-theme-default-black);
+        margin-left: var(--ddd-spacing-2);
+      }
+      .share-button {
+        font-size: var(--ddd-font-size-xs);
+        border-width: var(--ddd-border-size-sm);
+        border-color: solid black;
+        border-radius: 10%;
+      }
+      .post-text {
+        display: flex;
+        align-items: baseline;
+        font-size: 17px;
+        gap: var(--ddd-spacing-2);
+        margin-left: var(--ddd-spacing-2);
+      }
+      .post-username {
+        font-weight: var(--ddd-font-weight-bold);
+      }
       .dots-area {
         position: absolute;
-        top: calc(var(--ddd-spacing-12) + 300px);
+        top: calc(var(--ddd-spacing-20) + 300px);
         left: 0;
         right: 0;
         padding: var(--ddd-spacing-2);
-      }
-      .slide-footer {
-        position: absolute;
-        top: calc(var(--ddd-spacing-2) + 300px + 60px);
-        left: 0;
-        right: 0;
-        padding: var(--ddd-spacing-2);
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        box-sizing: border-box;
-        max-width: 300px;
-        margin: 0 auto;
-        margin-top: var(--ddd-spacing-8);
       }
       .arrow-wrapper {
         position: relative;
         top: -85px;
+        margin-top: var(--ddd-spacing-8);
       }
     `];
   }
@@ -168,69 +169,76 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
   // Lit render the HTML
   render() {
     return html`
-      <div class="wrapper">
         ${this.images.length > 0
           ? this.images.map((image, index) => html`
-              <instagram-play-list-slide ?active=${index === this.curIndex}>
 
+              <instagram-play-list-slide ?active=${index === this.curIndex}>
                 <div class="slide-content">
                   <div class="author-row">
-                    <img
-                      class="profile-pic"
+                    <img class="profile-pic"
                       src="${image['profile-pic'] || ''}"
-                      alt="${image.author || 'Unknown Author'} profile picture"
-                    />
+                      alt="${image.author || 'Unknown Author'} profile picture"/>
                     <h3 class="author-text">${image.author || 'Unknown Author'}</h3>
                   </div>
-                  <img
-                    class="main-image"
-                    src="${index === this.curIndex ? image.url : ''}"
-                    alt="${image.description || 'Image'}"
-                  />
-                </div>
 
+                  <div class="author-info">
+                    <p class="username">@${image['username'] || 'Unknown'}</p>
+                    <p class="user-since">User Since: ${image['user-since'] || 'Unknown'}</p>
+                  </div>
+
+                  <img class="main-image"
+                    src="${index === this.curIndex ? image.url : ''}"
+                    alt="${image.description || 'Image'}"/>
+                </div>
               </instagram-play-list-slide>
             `)
           : html`<div class="loading">Loading photos...</div>`}
-      </div>
 
-      </div>
+        <div class="dots-area">
+          <instagram-play-list-dots
+            .images=${this.images}
+            .curIndex=${this.curIndex}
+            .total=${this.images.length}
+            @play-list-index-changed=${this._handleIndexChange}>
+          </instagram-play-list-dots>
+        </div>
 
-      <div class="dots-area">
-        <instagram-play-list-dots
-          .images=${this.images}
-          .curIndex=${this.curIndex}
-          .total=${this.images.length}
-          @play-list-index-changed=${this._handleIndexChange}>
-        </instagram-play-list-dots>
-      </div>
-
-      ${this.images.map((image, index) => index === this.curIndex ? html`
+        ${this.images.map((image, index) => index === this.curIndex ? html`
         <div class="slide-footer">
-          <div class="likes-date-wrapper">
+          <div class="likes-share-wrapper">
             <div class="likes-counter">
               <span
                 class=${classMap({heart: true, liked: Boolean(this.likes[image.url])})}
+                title="Like Button"
                 @click=${() => this._toggleLike(image)}
               >${this.likes[image.url] ? '♥' : '♡'}</span>
               <span class="likes-text">${this.likes[image.url] ? 'Liked' : 'Not Liked'}</span>
             </div>
-            <span class="date-taken">${image['date-taken'] ? this._formatDate(image['date-taken']) : ''}</span>
+            <div class="share-button">
+              <button class="share-button" title="Share Button" @click=${() => this._sharePost(this.images[this.curIndex])}>Share</button>
+            </div>
           </div>
-          <h4 class="title-text">${image.title || ''}</h4>
-          <p class="description">${image.description || ''}</p>
+
+          <div class="post-text">
+            <p class="post-username">@${image['username'] || 'Unknown'}</p>
+            <p class="title-text">${image.title || ''}</p>
+          </div>
+
+          <div>
+          <span class="date-taken">Taken: ${image['date-taken'] ? this._formatDate(image['date-taken']) : ''}</span>
+          </div>
         </div>
       ` : '')}
 
         <div class="arrow-wrapper">
           <instagram-play-list-arrow
-          activeIndex=${this.curIndex}
-          totalItems=${this.images.length}
+            activeIndex=${this.curIndex}
+            totalItems=${this.images.length}
             @next-clicked=${this.next}
             @prev-clicked=${this.back}>
           </instagram-play-list-arrow>
         </div>
-      `;
+        `;
   }
 
   firstUpdated() {
@@ -238,18 +246,36 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
     this.loadImages();
   }
 
+  _sharePost(image) {
+    if (!image) return;
+
+    const shareData = {
+      title: image.title || "Check out this post!",
+      text: image.description || "Check out this post!",
+      url: window.location.href
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData)
+        .catch(err => console.error("Share failed:", err));
+    } else {
+      navigator.clipboard.writeText(shareData.url);
+      alert("Link copied to clipboard!");
+    }
+  }
+
   async loadImages() {
     try {
       const resp = await fetch('./data.json');
       if (!resp.ok) throw new Error('Failed to load data.json');
+
       const data = await resp.json();
-      const images = (data.images || []).flatMap((item) => Object.values(item));
-      this.images = images;
+      this.images = (data.images || []).flatMap((item) => Object.values(item));
+
       this._loadLikesFromStorage();
       this._loadIndexFromStorage();
       
-      const urlParams = new URLSearchParams(window.location.search);
-      const slide = urlParams.get('slide');
+      const slide = new URLSearchParams(window.location.search).get('slide');
       if (slide !== null) {
         const index = parseInt(slide, 10) - 1;
         if (!isNaN(index) && index >= 0 && index < this.images.length) {
@@ -299,10 +325,9 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
   _toggleLike(image) {
     if (!image || !image.url) return;
     const key = image.url;
-    const liked = Boolean(this.likes[key]);
     this.likes = {
       ...this.likes,
-      [key]: !liked,
+      [key]: !Boolean(this.likes[key]),
     };
     this._saveLikesToStorage();
   }

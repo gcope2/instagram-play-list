@@ -87,7 +87,7 @@ export class InstagramPlayListDots extends DDDSuper(I18NMixin(LitElement)) {
 
     return html`
       <div class="dots" tabindex="0">
-        <div class="track">
+        <div class="track" title="Image Thumbnail Button">
           ${thumbnails}
         </div>
       </div>
