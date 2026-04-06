@@ -48,9 +48,15 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
         display: block;
         position: relative;
         width: 350px;
-        height: 600px;
-        background-color: var(--ddd-theme-default-slateMaxLight);
-        color: var(--ddd-theme-default-black);
+        height: 610px;
+        background-color: light-dark (
+          var(--ddd-theme-default-slateMaxLight),
+          var(--ddd-theme-default-coalyGray)
+        );
+        color: light-dark (
+          var(--ddd-theme-default-black),
+          var(--ddd-theme-default-white)
+        );
         font-family: var(--ddd-font-navigation);
         box-shadow: var(--ddd-boxShadow-xl);
         margin: var(--ddd-spacing-2) var(--ddd-spacing-2) var(--ddd-spacing-2) 25px !important;
@@ -85,6 +91,7 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
       .author-text {
         font-size: var(--ddd-font-size-s);
         margin: 0;
+        color: light-dark(var(--ddd-theme-default-black), var(--ddd-theme-default-white));
       }
       .author-info {
         display: flex;
@@ -95,6 +102,7 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
       .user-since {
         margin: 0 0 0 var(--ddd-spacing-12);
         font-size: 15px;
+        color: light-dark(var(--ddd-theme-default-black), var(--ddd-theme-default-white));
       }
       .slide-footer {
         position: absolute;
@@ -114,6 +122,7 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
         margin-top: var(--ddd-spacing-5);
         margin-left: var(--ddd-spacing-2);
         margin-right: var(--ddd-spacing-2);
+        margin-bottom: var(--ddd-spacing-2);
       }
       .likes-counter {
         display: flex;
@@ -123,7 +132,7 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
       .heart {
         cursor: pointer;
         font-size: var(--ddd-font-size-l);
-        color: var(--ddd-theme-default-black);
+        color: light-dark(var(--ddd-theme-default-black), var(--ddd-theme-default-white));
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -132,24 +141,48 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
       }
       .date-taken {
         font-size: 15px;
-        color: var(--ddd-theme-default-black);
+        color: light-dark(var(--ddd-theme-default-black), var(--ddd-theme-default-white));
         margin-left: var(--ddd-spacing-2);
+        margin-top: var(--ddd-spacing-2);
       }
       .share-button {
         font-size: var(--ddd-font-size-xs);
         border-width: var(--ddd-border-size-sm);
-        border-color: solid black;
+        border-color: light-dark(var(--ddd-theme-default-black), var(--ddd-theme-default-white));
         border-radius: 10%;
+        background-color: transparent;
+        color: light-dark(var(--ddd-theme-default-black), var(--ddd-theme-default-white));
       }
       .post-text {
         display: flex;
         align-items: baseline;
         font-size: 17px;
-        gap: var(--ddd-spacing-2);
+        gap: var(--ddd-spacing-1);
         margin-left: var(--ddd-spacing-2);
+        margin-bottom: 0;
+      }
+      .post-collumn {
+        display: flex;
+        flex-direction: column;
+        gap: var(--ddd-spacing-1);
+        margin-bottom: var(--ddd-spacing-2);
+      }
+      .post-username,
+      .title-text {
+        margin: 0;
       }
       .post-username {
         font-weight: var(--ddd-font-weight-bold);
+        color: light-dark(var(--ddd-theme-default-black), var(--ddd-theme-default-white));
+      }
+      .desc-text {
+        font-size: 17px;
+        color: light-dark(
+          var(--ddd-theme-default-black),
+          var(--ddd-theme-default-white)
+        );
+        margin: 0;
+        margin-left: var(--ddd-spacing-2);
       }
       .dots-area {
         position: absolute;
@@ -219,9 +252,15 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
             </div>
           </div>
 
-          <div class="post-text">
-            <p class="post-username">@${image['username'] || 'Unknown'}</p>
-            <p class="title-text">${image.title || ''}</p>
+          <div class="post-collumn">
+            <div class="post-text">
+              <p class="post-username">@${image['username'] || 'Unknown'}</p>
+              <p class="title-text">${image.title || ''}</p>
+            </div>
+
+            <div>
+              <p class="desc-text">${image.description || ''}</p>
+            </div>
           </div>
 
           <div>
@@ -266,11 +305,11 @@ export class InstagramPlayListData extends DDDSuper(I18NMixin(LitElement)) {
 
   async loadImages() {
     try {
-      const resp = await fetch('./data.json');
+      const resp = await fetch('/api/data');
       if (!resp.ok) throw new Error('Failed to load data.json');
 
       const data = await resp.json();
-      this.images = (data.images || []).flatMap((item) => Object.values(item));
+      this.images = data.images || [];
 
       this._loadLikesFromStorage();
       this._loadIndexFromStorage();

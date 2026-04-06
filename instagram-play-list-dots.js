@@ -80,8 +80,18 @@ export class InstagramPlayListDots extends DDDSuper(I18NMixin(LitElement)) {
   render() {
     let thumbnails = [];
     for (let i = 0; i < this.total; i++) {
+      const image = this.images[i] || {};
+      const thumbSrc = image.thumbnail || image.url || '';
+
       thumbnails.push(html`
-        <img @click="${this._handleDotClick}" data-index="${i}" class="thumbnail ${i === this.curIndex ? 'active' : ''}" src="${this.images[i]?.url || ''}" alt="Thumbnail ${i + 1}" />
+        <img 
+          @click="${this._handleDotClick}" 
+          data-index="${i}" 
+          class="thumbnail ${i === this.curIndex ? 'active' : ''}" 
+          src="${thumbSrc}" 
+          alt="Thumbnail ${i + 1}" 
+          loading="lazy"
+        />
       `);
     }
 

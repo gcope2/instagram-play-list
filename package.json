@@ -20,7 +20,7 @@
     "module": "instagram-play-list.js",
     "scripts": {
         "start": "web-dev-server",
-        "build": "rimraf public && node -e \"require('fs').mkdirSync('public', {recursive: true}); require('fs').copyFileSync('index.html', 'public/index.html'); require('fs').copyFileSync('data.json', 'public/data.json');\" && rollup -c rollup.config.js && npm run analyze",
+        "build": "rimraf public && node -e \"require('fs').mkdirSync('public', {recursive: true}); require('fs').copyFileSync('index.html', 'public/index.html'); require('fs');\" && rollup -c rollup.config.js && npm run analyze",
         "analyze": "cem analyze --litelement --exclude public",
         "dddaudit": "hax audit",
         "release": "npm run build && commit-and-tag-version && git push --follow-tags origin main && npm publish",

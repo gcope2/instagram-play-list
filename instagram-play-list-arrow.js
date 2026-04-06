@@ -56,10 +56,19 @@ export class InstagramPlayListArrow extends DDDSuper(I18NMixin(LitElement)) {
         width: 40px;
         height: 40px;
         border-radius: 10%;
-        background-color: var(--ddd-theme-default-white);
-        color: var(--ddd-theme-default-black);
+        background-color: light-dark(
+          var(--ddd-theme-default-white),
+          var(--ddd-theme-default-coalyGray)
+        );
+        color: light-dark(
+          var(--ddd-theme-default-black),
+          var(--ddd-theme-default-white)
+        );
         border-width: var(--ddd-border-size-md);
-        border-color: solid black;
+        border-color: light-dark(
+          var(--ddd-theme-default-black),
+          var(--ddd-theme-default-white)
+        );
         font-size: var(--ddd-font-size-md);
         font-weight: var(--ddd-font-weight-bold);
         justify-content: center;
